@@ -50,38 +50,13 @@ public class Clinetservice implements Runnable {
 			PrintWriter pw = new PrintWriter(fw);
 			pw.println("Username: " + ui.NametextField.getText() + " ID: " + socket.getLocalPort());
 			pw.close();
+			fw.close();
 
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-
-					while (true) {
-						try {
-							MsgClient msg = (MsgClient) In.readObject();
-							ui.textArea.append("\n" + msg.getSender() + " : " + msg.getContent());
-
-						} catch (Exception e) {
-							ui.textArea.append("Server is close");
-							ui.lblStatus.setText("\nConnect Status:OFF");
-							ui.lblStatus.setForeground(Color.red);
-							ui.btnConsoc.setEnabled(true);
-							ui.NametextField.setEditable(true);
-							ui.IPtextField.setEditable(true);
-							ui.PorttextField.setEditable(true);
-							System.err.println("Error in print massage client service");
-							break;
-						}
-					}
-
-				}
-			});
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "Check Port or Server is close", "Can't connect to server",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Can't connect to server", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Check Port or Server is close", "Can't connect to server",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Can't connect to server", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
 	}
@@ -90,10 +65,10 @@ public class Clinetservice implements Runnable {
 		try {
 			Out.writeObject(msg);
 			Out.flush();
-		} catch (Exception e) {
+		} catch (IOException e) {
 			System.out.println(e.getMessage());
 			ui.textArea.append("Server is close");
-			ui.lblStatus.setText("\nConnect Status:OFF");
+			ui.lblStatus.setText("Connect Status:OFF");
 			ui.lblStatus.setForeground(Color.red);
 			ui.btnConsoc.setEnabled(true);
 			ui.NametextField.setEditable(true);
