@@ -117,7 +117,7 @@ public class Clinetservice implements Runnable {
 				ui.textArea.append("\n" + msg.getSender() + " : " + msg.getContent());
 
 			} catch (Exception e) {
-				ui.textArea.append("Server is close");
+				ui.textArea.append("\nServer is close");
 				ui.lblStatus.setText("\nConnect Status:OFF");
 				ui.lblStatus.setForeground(Color.red);
 				ui.btnConsoc.setEnabled(true);
